@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Pong
@@ -22,17 +24,22 @@ namespace Pong
         bool pressedDownRight;
         bool twoPlayers;
         bool end = false;
-        
 
-        public Game(bool gameForTwoPlayer)
+        int time = 0;
+        string onePlayerName;
+
+
+        public Game(bool gameForTwoPlayer, string playerName = null)
         {
             InitializeComponent();
             twoPlayers = gameForTwoPlayer;
+            onePlayerName = playerName;
         }
 
         #region Timer
         // timer is in milliseconds
-        private void timerTick(object sender, EventArgs e)
+        // 1000 milliseconds = 1 second
+        private void TimerTick(object sender, EventArgs e)
         {
             // ball movement
             ball.Top -= ballY; 
@@ -48,7 +55,7 @@ namespace Pong
                 ball.Top = random.Next(ball.Height + 1, this.ClientSize.Height - ball.Height);
                 ballX = -ballX;
                 scoreRight++; 
-                changeImageScore(scoreRight, true);
+                ChangeImageScore(scoreRight, true);
             }
 
             // Right paddle missed the ball
@@ -58,7 +65,7 @@ namespace Pong
                 ball.Top = random.Next(ball.Height + 1, this.ClientSize.Height - ball.Height);
                 ballX = -ballX; 
                 scoreLeft++; 
-                changeImageScore(scoreLeft, false);
+                ChangeImageScore(scoreLeft, false);
             }
             #endregion
 
@@ -112,20 +119,34 @@ namespace Pong
 
             #region Score/Endgame control
 
-            if (scoreLeft > 9)
+            if (scoreLeft > 0)
             {
                 timer.Stop();
+                gameTime.Stop();
                 winleft.Visible = true;
                 winleft.Image = Properties.Resources.You_win;
                 winright.Visible = true;
                 winright.Image = Properties.Resources.You_lose;
                 enter.Visible = true;
                 end = true;
+
+                if (!twoPlayers)
+                {
+                    scoreShow.Visible = true;
+                    nameBox.Visible = true;
+                    nameBox.TextAlign = HorizontalAlignment.Center;
+                    scoreShow.Text = string.Format("{0} s", time.ToString());
+                    nameBox.Text = onePlayerName;
+                    nameBox.Font = new Font("Arial", 24, FontStyle.Bold);
+                    scoreShow.Font = new Font("Arial", 24, FontStyle.Bold);
+                    SaveScoreIntoCSV(string.Format("{0};{1};{2}", onePlayerName, time.ToString(), string.Format("{0}.{1}.{2}", DateTime.Today.Day, DateTime.Today.Month, DateTime.Today.Year)));
+                }
             }
 
             if (scoreRight > 9)
             {
                 timer.Stop();
+                gameTime.Stop();
                 winright.Visible = true;    
                 winright.Image = Properties.Resources.You_win;
                 winleft.Visible = true;
@@ -135,10 +156,15 @@ namespace Pong
             }
             #endregion
         }
+
+        private void GameTime_Tick(object sender, EventArgs e)
+        {
+            time++; 
+        }
         #endregion
 
         #region Key control
-        private void keyispressed(object sender, KeyEventArgs e)
+        private void Keyispressed(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.W)
             {
@@ -162,7 +188,7 @@ namespace Pong
             }
         }
 
-        private void keyisnotpressed(object sender, KeyEventArgs e)
+        private void Keyisnotpressed(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.W)
             {
@@ -182,14 +208,14 @@ namespace Pong
             }
         }
 
-        private void closeGameViaX(object sender, FormClosingEventArgs e)
+        private void CloseGameViaX(object sender, FormClosingEventArgs e)
         {
             this.Hide();
         }
         #endregion
 
         #region Score image
-        private void changeImageScore(int score, bool paddleRightScore)
+        private void ChangeImageScore(int score, bool paddleRightScore)
         {
             switch (score)
             {
@@ -270,5 +296,15 @@ namespace Pong
             }
         }
         #endregion
+
+        private void SaveScoreIntoCSV(string data)
+        {
+            var filePath = "C:\\Users\\miros\\Desktop\\Pong\\Pong\\Resources\\Score.csv";
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                string row = string.Join(";", data);
+                writer.WriteLine(row);
+            }
+        }
     }
 }

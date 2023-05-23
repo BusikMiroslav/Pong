@@ -11,15 +11,15 @@ namespace Pong
         }
 
         #region Click action
-        private void onePlayer_Click(object sender, EventArgs e)
+        private void OnePlayer_Click(object sender, EventArgs e)
         {
-            Game game = new Game(false);
+            NameForm nmfrm = new NameForm();
             this.Hide();
-            game.ShowDialog();
+            nmfrm.ShowDialog();
             this.Show();
         }
 
-        private void twoPlayers_Click(object sender, EventArgs e)
+        private void TwoPlayers_Click(object sender, EventArgs e)
         {
             Game game = new Game(true);
             this.Hide();
@@ -27,39 +27,47 @@ namespace Pong
             this.Show();
         }
 
-        private void exit_Click(object sender, EventArgs e)
+        private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void StatisticsImage_Click(object sender, EventArgs e)
+        {
+            Statistics stat = new Statistics();
+            this.Hide();
+            stat.ShowDialog();
+            this.Show();
         }
         #endregion
 
         #region Show and hide arrows 
-        private void show1PArrow(object sender, EventArgs e)
+        private void Show1PArrow(object sender, EventArgs e)
         {
             arrow1.Visible = true;
         }
 
-        private void hide1PArrow(object sender, EventArgs e)
+        private void Hide1PArrow(object sender, EventArgs e)
         {
             arrow1.Visible = false;
         }
 
-        private void show2PArrow(object sender, EventArgs e)
+        private void Show2PArrow(object sender, EventArgs e)
         {
             arrow2.Visible = true;
         }
 
-        private void hide2PArrow(object sender, EventArgs e)
+        private void Hide2PArrow(object sender, EventArgs e)
         {
             arrow2.Visible = false;
         }
 
-        private void showExitArrow(object sender, EventArgs e)
+        private void ShowExitArrow(object sender, EventArgs e)
         {
             arrow3.Visible = true;
         }
 
-        private void hideExitArrow(object sender, EventArgs e)
+        private void HideExitArrow(object sender, EventArgs e)
         {
             arrow3.Visible = false;
         }

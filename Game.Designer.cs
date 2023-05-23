@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.gameTime = new System.Windows.Forms.Timer(this.components);
+            this.scoreShow = new System.Windows.Forms.TextBox();
             this.enter = new System.Windows.Forms.PictureBox();
             this.winright = new System.Windows.Forms.PictureBox();
             this.winleft = new System.Windows.Forms.PictureBox();
@@ -39,6 +41,7 @@
             this.ball = new System.Windows.Forms.PictureBox();
             this.paddleRight = new System.Windows.Forms.PictureBox();
             this.paddleLeft = new System.Windows.Forms.PictureBox();
+            this.nameBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.enter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.winright)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.winleft)).BeginInit();
@@ -53,7 +56,26 @@
             // 
             this.timer.Enabled = true;
             this.timer.Interval = 30;
-            this.timer.Tick += new System.EventHandler(this.timerTick);
+            this.timer.Tick += new System.EventHandler(this.TimerTick);
+            // 
+            // gameTime
+            // 
+            this.gameTime.Enabled = true;
+            this.gameTime.Interval = 1000;
+            this.gameTime.Tick += new System.EventHandler(this.GameTime_Tick);
+            // 
+            // scoreShow
+            // 
+            this.scoreShow.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.scoreShow.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.scoreShow.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.scoreShow.Location = new System.Drawing.Point(430, 179);
+            this.scoreShow.Name = "scoreShow";
+            this.scoreShow.ReadOnly = true;
+            this.scoreShow.Size = new System.Drawing.Size(148, 15);
+            this.scoreShow.TabIndex = 11;
+            this.scoreShow.Text = "gameTime";
+            this.scoreShow.Visible = false;
             // 
             // enter
             // 
@@ -132,12 +154,27 @@
             this.paddleLeft.TabIndex = 0;
             this.paddleLeft.TabStop = false;
             // 
+            // nameBox
+            // 
+            this.nameBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.nameBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.nameBox.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.nameBox.Location = new System.Drawing.Point(317, 130);
+            this.nameBox.Name = "nameBox";
+            this.nameBox.ReadOnly = true;
+            this.nameBox.Size = new System.Drawing.Size(308, 15);
+            this.nameBox.TabIndex = 12;
+            this.nameBox.Text = "playerName";
+            this.nameBox.Visible = false;
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(926, 566);
+            this.Controls.Add(this.nameBox);
+            this.Controls.Add(this.scoreShow);
             this.Controls.Add(this.enter);
             this.Controls.Add(this.winright);
             this.Controls.Add(this.winleft);
@@ -150,9 +187,9 @@
             this.MinimumSize = new System.Drawing.Size(944, 613);
             this.Name = "Game";
             this.Text = "Pong";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.closeGameViaX);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyispressed);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyisnotpressed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CloseGameViaX);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Keyispressed);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Keyisnotpressed);
             ((System.ComponentModel.ISupportInitialize)(this.enter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.winright)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.winleft)).EndInit();
@@ -162,6 +199,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.paddleRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.paddleLeft)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -176,6 +214,9 @@
         private System.Windows.Forms.PictureBox winleft;
         private System.Windows.Forms.PictureBox winright;
         private System.Windows.Forms.PictureBox enter;
+        private System.Windows.Forms.Timer gameTime;
+        private System.Windows.Forms.TextBox scoreShow;
+        private System.Windows.Forms.TextBox nameBox;
     }
 }
 
