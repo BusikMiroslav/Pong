@@ -26,7 +26,9 @@ namespace Pong
 
         private void LoadTopScoreFromCSV()
         {
-            var filePath = "C:\\Users\\miros\\Desktop\\Pong\\Pong\\Resources\\Score.csv";
+            //path from .exe file to Resources
+            string filePath = "..\\..\\Resources\\Score.csv";
+
             var reader = new StreamReader(filePath);
 
             while (!reader.EndOfStream)

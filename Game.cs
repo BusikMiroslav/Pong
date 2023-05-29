@@ -119,7 +119,7 @@ namespace Pong
 
             #region Score/Endgame control
 
-            if (scoreLeft > 0)
+            if (scoreLeft > 9)
             {
                 timer.Stop();
                 gameTime.Stop();
@@ -299,7 +299,9 @@ namespace Pong
 
         private void SaveScoreIntoCSV(string data)
         {
-            var filePath = "C:\\Users\\miros\\Desktop\\Pong\\Pong\\Resources\\Score.csv";
+            //path from .exe file to Resources
+            string filePath = "..\\..\\Resources\\Score.csv";
+
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
                 string row = string.Join(";", data);
